@@ -1,6 +1,6 @@
 {
   "name": "statly",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Optimized Statistics Library",
   "main": "statly.js",
   "author": "Sam Eubank <sameubank@gmail.com>",
