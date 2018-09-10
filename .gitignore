@@ -1,0 +1,7 @@
+*.log
+.cache
+.nyc_output
+.DS_Store
+coverage
+node_modules
+package-lock.json
