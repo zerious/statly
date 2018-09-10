@@ -1,9 +1,10 @@
+// Perform a Mann-Whitney U Test comparing sample `a` and `b`.
 exports.uTest = (a, b) => {
   a = tally(a)
   b = tally(b)
   const num = n => n === undefined ? Infinity : n
-  const ak = keys(a)
-  const bk = keys(b)
+  const ak = a.keys || keys(a)
+  const bk = b.keys || keys(b)
   let av = ak[0], i = 0, x = 0, dx = 0
   let bv = bk[0], j = 0, y = 0, dy = 0
   let u = 0
@@ -33,6 +34,7 @@ exports.uTest = (a, b) => {
   return { p, auc }
 }
 
+// Get a sorted list of numerical object keys.
 function keys (o) {
   const a = []
   for (const k in o) {
@@ -45,15 +47,36 @@ function keys (o) {
   return a
 }
 
-function Tally (a) {
-  for (let i = 0, l = a.length; i < l; i++) {
-    const k = a[i]
-    this[k] = (this[k] || 0) + 1
-  }
+// Create a non-enumerable object property.
+function hide (o, p, v) {
+  Object.defineProperty(o, p, {
+    value: v,
+    configurable: true,
+    enumerable: false,
+    writable: true
+  })
 }
 
+function Tally (a) {
+  hide(this, 'keys', [])
+  this.add(a)
+}
+
+hide(Tally.prototype, 'add', function (a) {
+  for (let i = 0, l = a.length; i < l; i++) {
+    const k = a[i]
+    if (this[k] === undefined) {
+      this.keys.push(parseFloat(k))
+      this[k] = 1
+    } else {
+      this[k]++
+    }
+  }
+  this.keys.sort((a, b) => a < b ? -1 : 1)
+})
+
 const tally = exports.tally = a => {
-  return (a instanceof Tally) ? a : new Tally(a)
+  return Array.isArray(a) ? new Tally(a) : a
 }
 
 const cdf = exports.cdf = (n, k) => {
