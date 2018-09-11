@@ -13,7 +13,7 @@ yarn add statly
 
 ## API
 
-### `tally (*Array* samples) ➜ *Tally* counts`
+#### tally (*Array* samples) ➜ *Tally* counts
 
 Convert an Array to an Tally object, with a key for each unique number in the sample array, and corresponding values indicating the number of times that number appears in the sample array.
 
@@ -25,7 +25,7 @@ const counts = tally(samples)
 // counts ➜ { 1: 2, 2: 5, 3: 4, 4: 1 }
 ```
 
-### `uTest (a: *Array|Tally*, b: *Array|Tally*) ➜ { p: *Number*, auc: *Number* }`
+#### uTest (a: *Array|Tally*, b: *Array|Tally*) ➜ { p: *Number*, auc: *Number* }
 
 Perform a Mann-Whitney U Test (AKA a Wilcoxon Rank Sum Test) comparing sample `a` and `b`.
 
